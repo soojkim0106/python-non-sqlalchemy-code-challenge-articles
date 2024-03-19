@@ -111,9 +111,26 @@ class Magazine:
         return ([article.title for article in self.articles()] if self.articles() else None)
 
     def contributing_authors(self):
-        list_of_authors = [article.author for article in self.articles()]
-        if authors := list({author for author in list_of_authors if list_of_authors.count(author) > 2}):
-            return authors
+        ## Method 1
+        # list_of_authors = [article.author for article in self.articles()]
+        # if authors := list({author for author in list_of_authors if list_of_authors.count(author) > 2}):
+        #     return authors
+        # else:
+        #     None
+
+        ## Method 2
+        authors_count = {}
+        
+        for article in self.articles():
+            if article.author in authors_count:
+                authors_count[article.author] += 1
+            else:
+                authors_count[article.author] = 1
+
+        if contributing_authors := [
+            author for author, count in authors_count.items() if count > 2
+        ]:
+            return contributing_authors
         else:
             None
 
